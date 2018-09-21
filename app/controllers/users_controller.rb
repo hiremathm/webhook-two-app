@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  protect_from_forgery unless: -> { request.format.json? }
   # GET /users
   # GET /users.json
   def index
@@ -62,14 +62,14 @@ class UsersController < ApplicationController
   end
 
   def webhook
-    # binding.pry
+    binding.pry
     # abort params.inspect
     Rails.logger.info "Users webhook: " + params.to_s
     # users = JSON.parse(params.to_json, object_class: OpenStruct)
     # if users.count > 1
     #   users.each do |user|
     user = params
-    # binding.pry
+    binding.pry
         User.create(name: user[:name], age: user[:age], gender: user[:gender], phone: user[:phone], email: user[:email])
         redirect_to '/'
     #   end
