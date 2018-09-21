@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
   end
 
   # GET /users/new
@@ -62,20 +63,10 @@ class UsersController < ApplicationController
   end
 
   def webhook
-    binding.pry
-    # abort params.inspect
-    Rails.logger.info "Users webhook: " + params.to_s
-    # users = JSON.parse(params.to_json, object_class: OpenStruct)
-    # if users.count > 1
-    #   users.each do |user|
-    user = params
-    binding.pry
-        User.create(name: user[:name], age: user[:age], gender: user[:gender], phone: user[:phone], email: user[:email])
-        redirect_to '/'
-    #   end
-    # else
-    #   User.create(name: users.name, age: users.age, gender: users.gender, phone: users.phone, email: users.email)
-    # end
+    params["users"].each do |user|
+      User.create(name: user[:name], age: user[:age], gender: user[:gender], phone: user[:phone], email: user[:email])  
+    end
+    redirect_to '/'
   end
 
   private
